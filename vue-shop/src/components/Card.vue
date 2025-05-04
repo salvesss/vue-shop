@@ -25,7 +25,7 @@ defineProps({
     <div className="flex justify-between mt-5">
       <div className="flex flex-col">
         <span className="text-slate-400">Цена: </span>
-        <b>{{ price }}</b>
+        <b>{{ price }} р.</b>
       </div>
       <img @click="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="Plus" />
     </div>
