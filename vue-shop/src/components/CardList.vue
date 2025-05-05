@@ -17,7 +17,7 @@ const onClickAdd = () => {
       :key="item.id"
       :title="item.title"
       :imageUrl="item.imageUrl"
-      :price="item.price"
+      :price="Number(item.price)"
       :onClickAdd="onClickAdd"
     />
   </div>
