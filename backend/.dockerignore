@@ -1,0 +1,10 @@
+target
+data
+.mvn
+*.iml
+.idea
+Dockerfile*
+docker-compose.yml
+README.md
+
+

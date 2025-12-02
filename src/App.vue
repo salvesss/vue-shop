@@ -6,6 +6,11 @@ import Header from './components/Header.vue'
 import CardList from './components/CardList.vue'
 import Drawer from './components/Drawer.vue'
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
+const apiClient = axios.create({
+  baseURL: apiBaseUrl,
+})
+
 const items = ref([])
 const cart = ref([])
 
@@ -21,7 +26,7 @@ const openDrawer = () => {
 }
 
 const filters = reactive({
-  sortBy: 'title',
+  sortBy: 'name',
   searchQuery: '',
 })
 
@@ -53,7 +58,7 @@ const onChangeSearchInput = (event) => {
 
 const fetchFavorites = async () => {
   try {
-    const { data: favorites } = await axios.get(`https://caa4ea22ee7fba88.mokky.dev/favorites`)
+    const { data: favorites } = await apiClient.get(`/favorites`)
     items.value = items.value.map((item) => {
       const favorite = favorites.find((favorite) => favorite.parentId === item.id)
       if (!favorite) {
@@ -77,12 +82,12 @@ const addToFavorite = async (item) => {
         parentId: item.id,
       }
       item.isFavorite = true
-      const { data } = await axios.post(`https://caa4ea22ee7fba88.mokky.dev/favorites`, obj)
+      const { data } = await apiClient.post(`/favorites`, obj)
 
       item.favoriteId = data.id
     } else {
       item.isFavorite = false
-      await axios.delete(`https://caa4ea22ee7fba88.mokky.dev/favorites/${item.favoriteId}`)
+      await apiClient.delete(`/favorites/${item.favoriteId}`)
       item.favoriteId = null
     }
   } catch (err) {
@@ -100,7 +105,7 @@ const fetchItems = async () => {
       params.title = `*${filters.searchQuery}*`
     }
 
-    const { data } = await axios.get(`https://caa4ea22ee7fba88.mokky.dev/items`, { params })
+    const { data } = await apiClient.get(`/items`, { params })
     items.value = data.map((obj) => ({
       ...obj,
       isFavorite: false,
