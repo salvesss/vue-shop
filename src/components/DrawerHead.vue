@@ -5,7 +5,7 @@ const { closeDrawer } = inject('cart')
 </script>
 
 <template>
-  <div className="flex items-center gap-5 mb-5">
+  <div class="flex items-center gap-5 mb-5">
     <svg
       @click="closeDrawer"
       class="opacity-30 cursor-pointer rotate-180 transition hover:opacity-100 hover:-translate-x-1"
@@ -30,6 +30,6 @@ const { closeDrawer } = inject('cart')
         stroke-linejoin="round"
       />
     </svg>
-    <h2 className="text-2xl font-bold">Корзина</h2>
+    <h2 class="text-2xl font-bold">Корзина</h2>
   </div>
 </template>

@@ -10,11 +10,11 @@ defineProps({
 </script>
 
 <template>
-  <div className="flex items-center border border-slate-200 p-4 rounded-xl gap-4">
-    <img className="w-16 h-16" :src="imageUrl" alt="Velo" />
-    <div className="flex flex-col">
+  <div class="flex items-center border border-slate-200 p-4 rounded-xl gap-4">
+    <img class="w-16 h-16" :src="imageUrl" alt="Velo" />
+    <div class="flex flex-col">
       <p>{{ title }}</p>
-      <div className="flex justify-between mt-2">
+      <div class="flex justify-between mt-2">
         <b>{{ price }} р.</b>
         <img
           @click="emit('onClickRemove')"

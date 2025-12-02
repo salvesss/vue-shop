@@ -1,37 +1,75 @@
 <script setup>
+import { inject } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+
 defineProps({
   totalPrice: Number,
 })
 
 const emit = defineEmits(['openDrawer'])
+
+const auth = inject('auth')
+const router = useRouter()
+
+const onLogout = () => {
+  auth.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
-  <header className="flex justify-between border-b border-slate-200 px-8 py-8">
-    <div className="flex items-center gap-4">
-      <img src="/logo.png" alt="Logo" className="w-15 rounded-2xl" />
+  <header class="flex justify-between items-center border-b border-slate-100 px-8 py-6">
+    <RouterLink to="/" class="flex items-center gap-4">
+      <img src="/logo.png" alt="Logo" class="w-14 h-14 rounded-2xl shadow-md" />
       <div>
-        <h2 className="text-xl font-bold">bikeON</h2>
-        <p className="text-slate-400">Магазин лучших велосипедов</p>
+        <h2 class="text-2xl font-bold tracking-tight">bikeON</h2>
+        <p class="text-slate-400 text-sm">Магазин лучших велосипедов</p>
       </div>
-    </div>
+    </RouterLink>
 
-    <ul className="flex items-center gap-10">
-      <li
+    <div class="flex items-center gap-8">
+      <button
+        type="button"
+        class="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-black transition"
         @click="() => emit('openDrawer')"
-        className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black"
       >
         <img src="/cart.svg" alt="Cart" />
         <b>{{ totalPrice }} р.</b>
-      </li>
-      <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
+      </button>
+
+      <RouterLink
+        to="/favorites"
+        class="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-black transition"
+      >
         <img src="/heart.svg" alt="Heart" />
         <span>Закладки</span>
-      </li>
-      <li className="flex items-center gap-3 cursor-pointer text-gray-500 hover:text-black">
+      </RouterLink>
+
+      <RouterLink
+        v-if="auth.isAuthenticated"
+        to="/profile"
+        class="flex items-center gap-2 cursor-pointer text-gray-500 hover:text-black transition"
+      >
         <img src="/profile.svg" alt="Profile" />
-        <span>Профиль</span>
-      </li>
-    </ul>
+        <span>{{ auth.userEmail || 'Профиль' }}</span>
+      </RouterLink>
+
+      <RouterLink
+        v-else
+        to="/login"
+        class="px-4 py-2 rounded-xl border border-lime-400 text-lime-600 text-sm font-semibold hover:bg-lime-50 transition"
+      >
+        Войти
+      </RouterLink>
+
+      <button
+        v-if="auth.isAuthenticated"
+        type="button"
+        class="text-xs text-slate-400 hover:text-red-500 transition"
+        @click="onLogout"
+      >
+        Выйти
+      </button>
+    </div>
   </header>
 </template>
